@@ -1,0 +1,195 @@
+{literal}
+<style>
+    .product-remove{padding-top: 17px !important; padding-bottom: 17px !important;padding-left: 10px!important; padding-right: 10px!important;}
+    #itemdetails{width: 25% !important;}
+    table{border: 1px solid #e9e4e4 !important;}
+    th{border: 1px solid #e9e4e4 !important;padding-left: 10px!important; padding-right: 10px!important;}
+    td{border: 1px solid #e9e4e4 !important;padding-left: 10px!important; padding-right: 10px!important;}
+    .product-name{padding-top: 17px !important; padding-bottom: 17px !important;padding-left: 10px!important; padding-right: 10px!important;}
+</style>
+{/literal}
+<div class="single-product-area">
+	<div class="c-layout-breadcrumbs-1 c-subtitle c-fonts-uppercase c-fonts-bold c-bordered c-bordered-both">
+    <div class="container">
+		  <div class="c-page-title c-pull-left">
+			  <h3 class="c-font-uppercase c-font-sbold">{$this->Language['purchase_history']}</h3>
+		  </div>
+	  </div>
+	</div>
+    <div class="container  content-area">
+        <div class="row top20" style="margin-right:0px !important;">
+            {assign var="total_purchase" value=$purchasehistory|@count}
+            {if ($total_purchase > 0)} 
+            <div class="col-md-12 p-l-0">
+                <table cellspacing="0" class="shop_table top20" style='width:100%;'>
+                    <thead>
+                        <tr>
+                            <th class="product-name">{$this->Language["date"]}</th>
+                            <th class="product-name">{$this->Language["order"]}</th>
+                            <th class="product-name">{$this->Language["order_type"]}</th>
+                            <th class="product-name" id="itemdetails">{$this->Language["item_details"]}</th>
+                            <th class="product-name">{$this->Language["status"]}</th>
+                            <th class="product-name">{$this->Language["invoice"]}</th>
+                        </tr>
+                    </thead>                   
+                    {assign var="user_id" value=Yii::app()->user->id}
+                    {if $user_id > 0}
+                    {if ($total_purchase > 0)}
+                    {foreach from=$purchasehistory item=purchase}
+
+                    <tr class="cart_item">
+                        <td class="product-remove">{$purchase['transaction_date']}</td>
+                        <td class="product-thumbnail">
+                            {if $purchase['transaction_type']==4}
+                            {assign var="orderurl" value=Yii::app()->createUrl("/user/orderDetails/")}
+                            <a href="{$orderurl}/{$purchase['id']}"># {$purchase['order_number']}</a>
+                            {else if $purchase['transaction_type']==6}
+                            {assign var="orderurl" value=Yii::app()->createUrl("/user/transaction/")}
+                            <a href="{$orderurl}/v/{$purchase['id']}"># {$purchase['order_number']}</a>
+                            {else}
+                            {assign var="orderurl" value=Yii::app()->createUrl("/user/transaction/")}
+                            <a href="{$orderurl}/{$purchase['id']}"># {$purchase['order_number']}</a>
+                            {/if}
+                        </td>
+                        <td class="product-remove">{$purchase['order_type']}</td>
+
+                        <td>
+                            {if !empty($purchase['details'])}
+                            {foreach from=$purchase['details'] item=value}
+                            <div class="itemdiv">
+                                {$this->Language["text_name"]}:{if $purchase['baseurl']!='' }<a href="{$purchase['baseurl']}/{$value['permalink']}">{/if}{$value['name']}{if $purchase['baseurl']!='' }</a>{/if}<br>
+                                {$this->Language["quantity"]}:{$value['quantity']}<br>
+                                {$this->Language["price"]}:{Yii::app()->common->formatPrice($value['price'], $value['currency_id'])}
+                            </div>
+                            <div style="clear: both;padding-top: 10px;"></div>
+                            {/foreach}
+                            {else}
+                            {if $purchase['baseurl']!='' }<a href="{$purchase['baseurl']}">{/if}
+                                {$purchase['transaction_for']}{if $purchase['baseurl']!='' }</a>{/if}
+                            {/if}
+                            {if isset($purchase['ppv_bundles_movie_name']) && !empty($purchase['ppv_bundles_movie_name'])}
+                            {foreach from=$purchase['ppv_bundles_movie_name'] item=valuebundles}
+                            <div class="itemdiv">
+                                <a href="{$valuebundles['permalink']}">{$valuebundles['movie_name']}</a>
+                            </div>
+                            {/foreach}
+                            {/if}
+                        </td>
+                        <td>
+                            {foreach from=$purchase['details'] item=value}
+                            <div class="itemdiv">
+                                {$status[$value['item_status']]}<br>
+                                {if $value['item_status']|in_array:[1,2]}
+                                <a href='javascript:void(0);' onclick="cancelitem({$purchase['order_item_id']},'{$purchase['order_number']}')" title="{$this->Language['cancel_item']}">{$this->Language["cancel_item"]}</a>
+                                {/if}
+                            </div>
+                            <div style="clear: both;padding-top: 10px;"></div>
+                            {/foreach}<span>
+                            {if $purchase['transaction_type'] == 5}
+                            {$statusbundles}<br> {$purchase['expiry_date']} 
+                            {/if}
+                            {if $purchase['transaction_type'] == 2}
+                            {$purchase['statusppv']}{if $purchase['expiry_dateppv'] != ''}<br> {$purchase['expiry_dateppv']}{/if}{if $purchase['watch_period'] != ''}<br> {$purchase['watch_period']}{/if}
+                            {/if}
+                            {if $purchase['transaction_type'] == 3}
+                            N/A
+                            {/if}
+                            {if $purchase['transaction_type'] == 1}
+                            {$purchase['statusppv']}
+                            {/if}
+                            {if $purchase['transaction_type'] == 6}
+                             {$statusvoucher}<br>{$purchase['expiry_date']} <br> {$purchase['watch_period']}
+                            {/if}                            
+                            {if $purchase['transaction_type'] == 8}
+                            {$statuscredit}<br>{$purchase['expiry_date']} 
+                            {/if}                                           
+                            {$subscriptionbundles=''}
+                            {if $purchase['transaction_type'] == 7}
+                            {$statussubscriptionbundles}<br> {$purchase['expiry_date']} 
+                            {$subscriptionbundles=$purchase['subscriptionbundles_id']}
+                            {/if}
+							</span>
+                        </td>
+                        <td>
+                            {if $purchase['transaction_type'] == 4}
+                            <a data-href="{Yii::app()->createUrl('/user/viewInvoicePDF/')}?transaction_id={$purchase['id']}" onclick="viewInvoice(this)" class="show_cursor">{$this->Language["view_invoice"]}</a> 
+                            {else if $purchase['transaction_type'] == 6 }
+                            <a data-href="{Yii::app()->createUrl('/user/GetVoucherInvoicePDF/')}?vouchersubscriptio_id={$purchase['ppv_subscription_id']}" onclick="viewInvoice(this)" class="show_cursor">{$this->Language["view_invoice"]}</a>
+                            {else}
+                            <a data-href="{Yii::app()->createUrl('/user/getInvoicePDF/')}?transaction_id={$purchase['id']}{if $purchase['transaction_type'] == 7}&subscriptionbundles_id={$subscriptionbundles}{/if}" onclick="viewInvoice(this)" class="show_cursor">{$this->Language["view_invoice"]}</a>
+                            {/if}
+                        </td>
+                    </tr>
+                    {/foreach}
+                    {else}
+                    <tr>
+                        <td colspan="5">{$this->Language["no_record_found"]}</td>
+                    </tr>
+                    {/if}
+                    {/if}
+                </table>  
+                <div class="row" style="margin-right:0px !important;">
+                    <div class="col-md-12">
+                        <div class="product-pagination text-center">
+                            <nav>
+                                {$pagination}
+                            </nav>                        
+                        </div>
+                    </div>
+                </div>        
+            </div>
+            {/if}
+        </div>
+    </div>
+
+
+</div>
+<div id="successPopup" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title success-popup-payment">{$this->Language["cancel_request_processed_success"]}</div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="successPopupn" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title success-popup-payment">{$this->Language["request_cant_processed"]}</div>
+            </div>
+        </div>
+    </div>
+</div>
+{literal}
+<script type="text/javascript">
+    function cancelitem(order_item_id,ordernumber){
+        $('.loader_cart').show();
+        var url = '{/literal}{$this->siteurl}{literal}/shop/CancelItem';
+            $.post(url, {'ordernumber': ordernumber,'order_item_id': order_item_id}, function (res) {                             
+                if(res.isSuccess){
+                    $('.loader_cart').hide();
+                    $("#successPopup").modal('show');
+                    setTimeout(function () {
+                        window.location.href = '{/literal}{$this->siteurl}{literal}/user/purchaseHistory';
+                        return false;
+                    }, 5000);
+                }else{
+                    $('.loader_cart').hide();
+                    $("#successPopupn").modal('show');
+                    setTimeout(function () {
+                        window.location.href = '{/literal}{$this->siteurl}{literal}/user/purchaseHistory';
+                        return false;
+                    }, 5000);
+                }
+                
+            }, 'json');
+    }
+function viewInvoice(obj){
+  var link = $(obj).attr('data-href');
+  var win = window.open(link, '_blank');
+  win.focus();
+}
+</script>
+{/literal}

@@ -1,0 +1,142 @@
+<link rel="stylesheet" href="{$this->siteurl}/css/cropper.min.css" type="text/css" />
+<link rel="stylesheet" href="{$this->siteurl}/css/crop-avatar.css" type="text/css" />
+<script type="text/javascript" src="{$this->siteurl}/common/js/cropper.min.js"></script>
+<script type="text/javascript" src="{$this->siteurl}/common/js/crop-avatar.js"></script>
+<div class="single-product-area">
+    <div class="c-layout-breadcrumbs-1 c-subtitle c-fonts-uppercase c-fonts-bold c-bordered c-bordered-both">
+        <div class="container">
+            <div class="c-page-title c-pull-left">
+                <h3 class="c-font-uppercase c-font-sbold">{$this->Language['settings']}</h3>
+            </div>
+        </div>
+    </div>
+    <div class="container content-area">
+        <div class="row">
+            <div id="crop-avatar">
+                <div id="myflashwrapper" style="display: none"></div>
+                <div class="row-fluid">
+                    <div class="col-md-8">
+                        <div class="alert-msg in  fade alert-success profile-success" id="success_message" style="display: none;"></div>
+                        <div class="form-signin">
+                            <form id="user-account-form" method="POST" action="javascript:void(0);">
+                                <input type="hidden" name="csrfToken" value="{$smarty.session.csrfToken}" />
+                                <h3 class="c-font-uppercase c-font-sbold">{$this->Language['account_info']}</h3> 
+                                <div id="profile-errors" class="error center"></div>
+                                <div id="profile-loading" class="loader"></div> 
+                                {if (!$this->chkStudioForCustomProfile)}
+                                <div class="form-group">
+                                    <label class="control-label">{$this->Language['text_name']}  :</label>
+                                    <div class="controls">
+                                        <input required type="text" class="form-control c-square c-theme" value="{$user->display_name}" placeholder="{$this->Language['text_name_placeholder']}" name="name" id="name" />
+                                    </div>
+                                </div>          
+                                <div class="form-group">
+                                    <label class="control-label">{$this->Language['email']} :</label>
+                                    <div class="controls">
+                                        <input readonly type="text" class="form-control c-square c-theme" value="{$user->email}" placeholder="Email" name="{$this->Language['text_email_placeholder']}" id="email" />
+                                    </div>
+                                </div> 
+                                {if (count($custom_fields) > 0)}
+                                {foreach from=$custom_fields item=fields}
+                                <div class="form-group">
+                                    <label  class="control-label">{$fields['label']}</label>
+                                    <div class="controls">
+                                        {$fields['field']}
+                                    </div>
+                                </div>
+                                {/foreach}
+                                {/if}
+                                {else}
+                                {if (count($custom_fields) > 0)}
+                                {foreach from=$custom_fields item=fields}
+                                <div class="form-group">
+                                    <label  class="control-label">{$fields['label']}</label>
+                                    <div class="controls">
+                                        {$fields['field']}
+                                    </div>
+                                </div>
+                                {/foreach}
+                                {/if}
+                                {/if}
+
+                                <div class="form-group">
+                                    <label class="control-label">{$this->Language['text_password']} :</label>
+                                    <div class="controls">
+                                        <input type="password" class="form-control c-square c-theme" placeholder="{$this->Language['text_password_placeholder']}" name="new_password" id="new_password" />
+                                    </div>
+                                </div> 
+                                <div class="form-group">
+                                    <label class="control-label">{$this->Language['confirm_password']} :</label>
+                                    <div class="controls">
+                                        <input type="password" class="form-control c-square c-theme" placeholder="{$this->Language['confirm_password']}" name="confirm_password" id="confirm_password" />
+                                    </div>
+                                </div>  
+                                <div class="form-group ">
+                                    <div class="controls">
+                                        {if (count($chkAnnoucement) > 0)}
+                                        <label><input name="subscribe_newsletter"  value="1" type="checkbox" checked="checked" /> &nbsp;{$this->Language['subscribe_to_announcement']} </label>  
+                                        {else}
+                                        <label><input name="subscribe_newsletter"  value="1" type="checkbox"  /> &nbsp;{$this->Language['subscribe_to_announcement']}</label>  
+                                        {/if}
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="controls">
+                                        <button id="update-btn" class="btn btn-lg c-theme-btn c-btn-square c-btn-uppercase c-btn-bold" type="submit">{$this->Language['btn_update_profile']}</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-signin">
+                            <h3>&nbsp;</h3>
+                            <h3>&nbsp;</h3>
+                            <div class="form-group">
+                                <div class="controls">
+                                    <img src="{$user_picture}" alt="" title="" class="thumbnail center" /><br />
+                                    <a class="link txt-right" href="#" data-target="#avatar-modal" data-toggle="modal">{$this->Language['change_your_picture']}</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                
+                </div>
+            </div>            
+        </div>
+    </div>
+</div>
+<!-- Cropping modal -->
+<div class="modal fade" id="avatar-modal" tabindex="-1" role="dialog" aria-labelledby="avatar-modal-label" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" style="height:500px;">
+            <form class="avatar-form form-inline" method="post" action="{$this->siteurl}/user/upload_image" enctype="multipart/form-data">
+                <input type="hidden" name="csrfToken" value="{$smarty.session.csrfToken}" />
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title" id="avatar-modal-label">{$this->Language['profile_change']}</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="avatar-body">
+
+                        <!-- Upload image and data -->
+                        <div class="avatar-upload">
+                            <input class="avatar-src" name="avatar_src" type="hidden">
+                            <input class="avatar-data" name="avatar_data" type="hidden">
+                            <input class="" name="fileinfo" id="fileinfo" type="hidden">
+                            <div class="form-group">
+                                <label class="wd160">{$this->Language['file_upload_profile']}</label>
+                                <input class="avatar-input" id="avatarInput" name="Filedata" type="file" />
+                            </div>                                     
+                        </div>
+
+                        <!-- Crop and preview -->
+                        <div class="avatar-wrapper"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn c-theme-btn c-btn-square c-btn-uppercase c-btn-bold avatar-save" type="submit">{$this->Language['btn_save']}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div><!-- /.modal -->

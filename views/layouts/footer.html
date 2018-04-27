@@ -1,0 +1,101 @@
+<a name="footer"></a>
+<footer class="c-layout-footer c-layout-footer-6" style="box-shadow: 0 0 6px rgba(0,0,0, .8);">
+    <div class="c-postfooter">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-10 col-sm-8">
+                    <div class="row">
+                        <div class="col-md-3 col-sm-6">
+                            <div class="footer-about-us">
+                                <a href="{$this->siteurl}"><img src="{$this->siteLogo}" alt="{$this->studio->name}" /></a>                     
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 col-sm-6 top6">
+                            <div class="footer-menu">
+                                <ul>
+                                    <li><a href="{$this->siteurl}/contactus" title="{$this->Language['contact_us']}">{$this->Language['contact_us']}</a></li>
+                                    {if $this->has_blog}
+                                    <li><a href="{$this->siteurl}/blog" title="{$this->Language['head_blog']}">{$this->Language['head_blog']}</a></li>
+                                    {/if}
+                                    {if $this->has_faqs}
+                                    <li><a href="{$this->siteurl}/faqs" title="{$this->Language['faq']}">{$this->Language['faq']}</a></li>
+                                    {/if}
+                                </ul>                                                    
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-3 col-sm-6 top6">
+                            <div class="footer-menu">
+                                {if $this->footer_menu|@count > 0}
+                                <ul>                                
+                                    {foreach from=$this->footer_menu key=key item=mitem}  
+                                    {assign var=val value=$val+1}
+                                    <li {if $mitem['children']|@count > 0}class="c-menu-type-classic"{/if}><a href="{$mitem['permalink']}" id="menu-{$val}" {if $mitem['link_type'] == 2} target=""{/if} class="{$mitem['class']} c-link dropdown-toggle" title="{$mitem['title']}">{$mitem['title']} {if $mitem['children']|@count > 0}{/if}</a>
+                                        {if $mitem['children']|@count > 0}
+                                        <ul>
+                                            {foreach from=$mitem['children'] key=key item=mcitem}
+                                            <li><a href="{$mcitem['permalink']}" id="menu-{$val}"  {if $mitem['link_type'] == 2} target="_blank"{/if} title="{$mitem['title']}">{$mcitem['title']}</a></li>
+                                            {/foreach}
+                                        </ul>
+                                        {/if}
+                                    </li>
+                                    {/foreach}                                
+                                </ul>
+                                {/if}
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 col-sm-6 footer top6">
+                            <div class="footer-social social-icon-size">
+                                {if isset($this->studio->fb_link) && $this->studio->fb_link != ''}
+                                <a href="{$this->studio->fb_link}" target="_blank" title="{$this->Language['link_facebook']}"><i class="fa fa-facebook"></i></a>
+                                {/if}
+                                {if isset($this->studio->tw_link) && $this->studio->tw_link != ''}
+                                <a href="{$this->studio->tw_link}" target="_blank" title="{$this->Language['link_twitter']}"><i class="fa fa-twitter"></i></a>
+                                {/if}
+                                {if isset($this->studio->gp_link) && $this->studio->gp_link != ''}
+                                <a href="{$this->studio->gp_link}" target="_blank" title="{$this->Language['link_gplus']}"><i class="fa fa-google-plus"></i></a>
+                                {/if}
+                                {if isset($this->studio->ig_link) && $this->studio->ig_link != ''}
+                                <a href="{$this->studio->ig_link}" target="_blank" title="{$this->Language['link_instagram']}"><i class="fa fa-instagram"></i></a>
+                                {/if}
+                                {if isset($this->studio->yb_link) && $this->studio->yb_link != ''}
+                                <a href="{$this->studio->yb_link}" target="_blank" title="{$this->Language['link_youtube']}"><i class="fa fa-youtube"></i></a>
+                                {/if}                             
+                            </div>                        
+                            <div class="newsletter-title">
+                            {$this->newsletter}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2 col-sm-4">
+                    <div class="copyright">
+                        {$this->copyright}
+                    </div>
+                    {if ($this->studio->hide_powered_by == 0)&& ($this->studio->is_deleted == 0) && ($this->studio->status == 1) && ($this->studio->is_subscribed == 0)} 
+                    <div class="footer-poweredby">
+                        {$this->Language['powered_by']}<br /><a href="https://www.muvi.com/sdk/?utm_source={$studio->permalink}" target="_blank" title="{$this->Language['muvi']}"><img src="{$this->siteurl}/common/images/powered-by.png" alt="{$this->Language['muvi']}" title="{$this->Language['muvi']}" /></a>
+                        <a class="btn btn-default btn-sm poweredby" role="button" href="https://www.muvi.com/payment/subscription">{$this->Language['remove_this_branding']}</a>
+                    </div>  
+                    {/if}
+                </div>
+            </div>
+        </div>
+          <div class="container">
+            <div class="text-center">
+                <p>
+                   {if $this->ioslinks!=''}
+                    <a href="{$this->ioslinks}" title="{$this->Language['apple_store']}" target="_blank"><img width="120px" src="{$this->siteurl}/images/public/Apple-Store.png" alt="{$this->Language['apple_store']}" title="{$this->Language['apple_store']}" /></a>
+                    {/if}
+                   {if $this->androidlinks!=''}
+                    <a href="{$this->androidlinks}" title="{$this->Language['google_play']}" target="_blank"><img width="120px" src="{$this->siteurl}/images/public/Google-Play.png" alt="{$this->Language['google_play']}"  title="{$this->Language['google_play']}" /></a>
+                    {/if}     
+                </p>
+            </div>
+        </div>
+</footer>
+<!-- END: LAYOUT/FOOTERS/FOOTER-6 -->
+{if $this->is_audio_enable == 1}
+{include file='../layouts/player.html'}    
+{/if}

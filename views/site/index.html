@@ -1,0 +1,24 @@
+{assign var="cropDimesion" value=Yii::app()->common->getPgDimension()}
+<div class="c-layout-page">
+    <!-- BEGIN: PAGE CONTENT -->
+    {include file='../layouts/banner.html'}
+    {include file='../layouts/gallery.html'}
+    <div class="container-fluid content-area">
+       {include file='../layouts/featuredsections.html'}     
+   </div>    
+</div>
+
+{literal}
+<script>
+    $(document).ready(function() {
+        var autoScroll = $('#auto_scroll').val();
+        var interval = $('#scroll_interval').val();
+        var thumb_visibe = $('#active_thumb').val();        
+        $(document).on('pjax:success', function() {
+           $('#loader_container').hide();
+           loadSlider(autoScroll, interval, thumb_visibe);
+       });
+    });
+</script>
+{/literal}
+<script type="text/javascript" src="{$this->siteurl}{$Yii->theme->baseUrl}/js/cart.js"></script>

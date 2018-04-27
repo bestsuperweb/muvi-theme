@@ -1,0 +1,79 @@
+<div class="single-product-area login-form">
+    <div class="c-layout-breadcrumbs-1 c-subtitle c-fonts-uppercase c-fonts-bold c-bordered c-bordered-both">
+        <div class="container">
+            <div class="c-page-title c-pull-left">
+                <h3 class="c-font-uppercase c-font-sbold">{$this->Language['login']}</h3>
+            </div>
+        </div>
+    </div>
+    <div class="container content-area">
+        <div class="row">
+            <div class="col-md-6 top200">
+                <h2  class="c-font-uppercase c-font-bold">{$this->Language['already_registered']}</h2>
+                <p class="grey">{$this->Language['have_an_account']}</p>
+                <form name="login_form" id="login_form" method="post" action="javascript:void(0);">
+                    <input type="hidden" name="csrfToken" value="{$smarty.session.csrfToken}" />
+                    {if $this->studio->social_logins}
+                    {if isset($smarty.session.social) } 
+                    {assign var=socialAuth value=$smarty.session.social}
+                    {else}
+                    {assign var=socialAuth value=$this->getSocialUrls()}
+                    {/if}
+                    {if $socialAuth}
+                    <div class="form-group">
+                        <ul class="social-icons invert">
+                            {if ($this->studio->social_logins & 1) && $socialAuth['fb_url'] }
+                            <li><a href="javascript:void(0);" data-url="{$socialAuth['fb_url']}" data-login="0" class="facebook_login facebook social_login"></a></li>     
+                            {/if}
+                            {if ($this->studio->social_logins & 2) && $socialAuth['gplus_url'] }
+                            <li><a href="{$socialAuth['gplus_url']}" class="googleplus social_login"></a></li>    
+                            {/if}  
+                        </ul>
+                    </div>
+                    {/if}
+                    {/if}
+                    <div id="login_errors" class="error center"></div>
+                    <div id="login_loading" class="loader" style="display: none;"></div>
+                    <div class="form-group">
+                        <label class="control-label"  for="username">{$this->Language['text_email']}</label>
+
+                        <div class="controls">
+
+                            <input type="email" required name="LoginForm[email]" id="username" placeholder="{$this->Language['text_email_placeholder']}" autocomplete="off"  class="form-control c-square c-theme" value="" />
+                        </div>
+                    </div>
+
+                    <div class="form-group ">
+
+                        <label class="control-label" for="password">{$this->Language['text_password']}</label>
+                        <div class="controls">
+                            <input type="password" required name="LoginForm[password]" id="password" placeholder="{$this->Language['text_password_placeholder']}" autocomplete="off" class="form-control c-square c-theme"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group ">
+                        <div class="controls">
+                            <div class="c-checkbox">
+                                <input name="LoginForm[rememberMe]" id="LoginForm_rememberMe" value="1" type="checkbox" class="c-check" value="1">
+<label for="LoginForm_rememberMe" class="c-font-16">
+                                    <span class="inc"></span>
+                                    <span class="check"></span>
+                                    <span class="box"></span>{$this->Language['rememberme']}</label>
+                            </div>  
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="form-group ">
+                        <div class="form-group" role="group">
+                            <button type="submit" class="btn btn-lg c-theme-btn c-btn-square c-btn-uppercase c-btn-bold" name="login_submit" id="login-btn">{$this->Language['btn_login']}</button>
+                            <div style="float: right; margin-top: 10px;"><a class="link txt-right" href="{$this->siteurl}/user/forgot">{$this->Language['forgot_password']}</a></div>
+                        </div>
+                    </div>                    
+                </form>                 
+            </div>        
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+	$('#main').addClass('c-layout-page');
+</script>
