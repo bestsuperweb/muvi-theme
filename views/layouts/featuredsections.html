@@ -38,31 +38,31 @@
   <div class="wrapper">
     <div ng-app="FeaturedContents" ng-controller="HomeFeaturedSections" id="homepage_sections" class="relative" ng-cloak>
       <div ng-repeat="(index, section) in sections" ng-if="section.total > 0" class="parent_sec_{{section.id}} parent-sec-hide" id="section_{{section.id}}">
-        <div ng-if="index%4 == 2">               
-          <img src="https://d1op7c8sil1f1a.cloudfront.net/imagegallery/original/call-bar_1524328131.png" style="width: 100%;" >
+        <div ng-if="index%4 == 2"> <br><br>               
+          <img src="https://d1op7c8sil1f1a.cloudfront.net/imagegallery/original/TRHS_1525209289.png" style="width: 100%;" >
           <br><br>
         </div>
-        <div ng-if="index != 0 && index%4 == 0" class="row" >
-          <div class="col-md-3 col-sm-6 slide">                 
-           <img src="https://d1op7c8sil1f1a.cloudfront.net/imagegallery/original/film_1525146233.png" class="img-responsive img-rounded" >
-           <h3 class="text-center category-title">FILM</h3>
+        <div ng-if="index != 0 && index%4 == 0" class="row" > <br><br>
+          <div class="col-md-3 col-sm-6 slide">                
+           <img src="https://d1op7c8sil1f1a.cloudfront.net/imagegallery/original/HOLLYWOOD_1525306217.png" class="img-responsive img-rounded" >
+           <h3 class="text-center category-title"></h3>
          </div>
          <div class="col-md-3 col-sm-6 slide">
           <img src="https://d1op7c8sil1f1a.cloudfront.net/imagegallery/original/dizi_1525146216.png" class="img-responsive img-rounded" >
-          <h3 class="text-center category-title">DIZI</h3>
+          <h3 class="text-center category-title">Dizi</h3>
         </div>
         <div class="col-md-3 col-sm-6 slide">
           <img src="https://d1op7c8sil1f1a.cloudfront.net/imagegallery/original/begless_1525146188.png" class="img-responsive img-rounded" >
-          <h3 class="text-center category-title">BEGESEL</h3>
+          <h3 class="text-center category-title">Belgesel</h3>
         </div>
         <div class="col-md-3 col-sm-6 slide">
-          <img src="https://d1op7c8sil1f1a.cloudfront.net/imagegallery/original/cocuk_1525146198.png" class="img-responsive img-rounded" >
-          <h3 class="text-center category-title">Çocuk</h3>
+          <img src="https://d1op7c8sil1f1a.cloudfront.net/imagegallery/original/bollywood_1525304513.png" class="img-responsive img-rounded" >
+          <h3 class="text-center category-title"></h3> <br><br>
         </div>
       </div> 
       <div class="row">
         <div class="col-sm-12">
-          <h2 class="clearfix">
+          <h2 class="clearfix"> 
             <span style="display:inline-block; margin-top:6px;" class="caps ">{{section.title | utfdecode}}</span>
             <a ng-if="section.cpermalink" ng-href="{/literal}{$this->siteurl}/{literal}{{section.cpermalink}}" class="btn btn-lg c-theme-btn c-btn-square c-btn-uppercase c-btn-bold pull-right">{/literal}{$this->Language['view_more']}{literal}</a>
           </h2>
