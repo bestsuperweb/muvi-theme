@@ -883,3 +883,7 @@ div.mobile-gallery img.img-responsive{
 .container-fluid{
    padding: 0 50px;
 }
+
+.bs-slider{
+    max-height: initial !important;
+}
