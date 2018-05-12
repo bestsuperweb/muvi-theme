@@ -1,27 +1,30 @@
-    function ConfirmFavPopup(obj) {
-            $("#deleteFav").modal('show');
-            var header = $(obj).attr('data-header');
-            var action_btn = $(obj).attr('data-button');
-            $("#deleteFav").find("#Favbodymodal").text(header);
-            $("#deleteFav").find('.action_btn').addClass(action_btn);
-            $("." + action_btn).attr('data-content_id', $(obj).attr('data-content_id'));
-            $("." + action_btn).attr('data-content_type', $(obj).attr('data-content_type'));
-            $("#deleteFav").find('.action_btn').attr('onclick','deleteFavContent(this)');
-    }
 
-    function changeFldValue(data_input, calculation){
-        var fld = $('.c-spinner input.' + data_input);
-        var fldVlu = $('.c-spinner input.' + data_input).val();
 
-        if(fldVlu != ''){
-            if(calculation == "plus")
-               fld.val(parseInt(fldVlu) + 1);
-            else if(calculation == "minus"){
-                if(fldVlu > 1)
-                    fld.val(parseInt(fldVlu) - 1);
-            }
-        }
+
+function ConfirmFavPopup(obj) {
+    $("#deleteFav").modal('show');
+    var header = $(obj).attr('data-header');
+    var action_btn = $(obj).attr('data-button');
+    $("#deleteFav").find("#Favbodymodal").text(header);
+    $("#deleteFav").find('.action_btn').addClass(action_btn);
+    $("." + action_btn).attr('data-content_id', $(obj).attr('data-content_id'));
+    $("." + action_btn).attr('data-content_type', $(obj).attr('data-content_type'));
+    $("#deleteFav").find('.action_btn').attr('onclick','deleteFavContent(this)');
+}
+
+function changeFldValue(data_input, calculation){
+    var fld = $('.c-spinner input.' + data_input);
+    var fldVlu = $('.c-spinner input.' + data_input).val();
+
+    if(fldVlu != ''){
+        if(calculation == "plus")
+         fld.val(parseInt(fldVlu) + 1);
+     else if(calculation == "minus"){
+        if(fldVlu > 1)
+            fld.val(parseInt(fldVlu) - 1);
     }
+}
+}
 jQuery(document).ready(function($) {
     /*$("div#ap").on("DOMAttrModified",function(){
         if($(this).is(":visible")){
@@ -30,6 +33,17 @@ jQuery(document).ready(function($) {
             $('footer').removeClass('playerOn');
         }
     });*/
+
+    $(window).scroll(function(event) {
+      event.preventDefault();
+      /* Act on the event */
+      var top = $(this).scrollTop();
+      if( top > 50){
+        $('header.navbar-fixed-top').fadeOut(300);
+    }else{
+        $('header.navbar-fixed-top').fadeIn(300);
+    }
+});
 
     $('body').on('click', function(e) {
         if ($.trim($(e.target).attr('class')) == "language-list" || $.trim($(e.target).attr('class')) == "fa fa-language") {
@@ -44,17 +58,17 @@ jQuery(document).ready(function($) {
     });
 
     var click_count = 1;
-	if (is_audio_enable == 1){
-		$('a').attr('data-pjax', '#main');
-		$('.playbtn').removeAttr('data-pjax');
-		$('.logout').removeAttr('data-pjax');
-		$('.language-list').removeAttr('data-pjax');
-getPlaylistName(sdk_user_id);
-	}
-	$('.c-cart-toggler').removeAttr('data-pjax');
-        $('a.managecontent').removeAttr('data-pjax');
-        $('a.add-content-btn').removeAttr('data-pjax');
-        $('a.edit-ugc-content').removeAttr('data-pjax');
+    if (is_audio_enable == 1){
+        $('a').attr('data-pjax', '#main');
+        $('.playbtn').removeAttr('data-pjax');
+        $('.logout').removeAttr('data-pjax');
+        $('.language-list').removeAttr('data-pjax');
+        getPlaylistName(sdk_user_id);
+    }
+    $('.c-cart-toggler').removeAttr('data-pjax');
+    $('a.managecontent').removeAttr('data-pjax');
+    $('a.add-content-btn').removeAttr('data-pjax');
+    $('a.edit-ugc-content').removeAttr('data-pjax');
     $('.c-menu-type-classic').click(function() {
         if ($(window).width() < 1280) {
             if (click_count % 2 != 0) {
@@ -65,9 +79,9 @@ getPlaylistName(sdk_user_id);
             click_count++;
         }
     });
-	soundOn();
-	$('.playbtn').addClass('btn c-btn btn-lg c-font-bold c-font-white c-theme-btn c-btn-square c-font-uppercase');
-	$('.close').click(function() {
+    soundOn();
+    $('.playbtn').addClass('btn c-btn btn-lg c-font-bold c-font-white c-theme-btn c-btn-square c-font-uppercase');
+    $('.close').click(function() {
         $('.loader').hide();
         $('.avatar-wrapper').html("");
         $('.avatar-input').html("");
@@ -169,51 +183,51 @@ getPlaylistName(sdk_user_id);
 //            $(this).detach().appendTo(aprentNode).addClass("mob-nav-caret");
 //        }
 //    });
-	$.widget("custom.catcomplete", $.ui.autocomplete, {
-			_renderMenu: function (ul, items) {
-				var self = this, currentCategory = "";
-				$.each(items, function (index, item) {
-					/*for(var i in item){
-					 alert(item[i]);
-					 }*/
-					if (item.category != currentCategory) {
-						//alert(item.category);
-						ul.append("<li class='ui-autocomplete-category'>" + item.category + "</li>");
-						currentCategory = item.category;
-					}
+$.widget("custom.catcomplete", $.ui.autocomplete, {
+    _renderMenu: function (ul, items) {
+        var self = this, currentCategory = "";
+        $.each(items, function (index, item) {
+                    /*for(var i in item){
+                     alert(item[i]);
+                 }*/
+                 if (item.category != currentCategory) {
+                        //alert(item.category);
+                        ul.append("<li class='ui-autocomplete-category'>" + item.category + "</li>");
+                        currentCategory = item.category;
+                    }
 
-					self._renderItemData(ul, item);
-				});
-			}
-		});
-		var category = "";
-		$("#siteSearchField").catcomplete({
-			source: HTTP_ROOT + "/search/search/",
-			minLength: 1,
-			select: function (event, ui) {
-				console.log(HTTP_ROOT);
-				var I = ui.item;
-				var searchCat = I.category;
-				searchCat = searchCat.toLowerCase();
-				var logurl = HTTP_ROOT + '/search/siteSearchLog';
-				$.post(logurl, {'object_category': I.content_types, 'search_string': I.value, 'search_url': window.location.href, 'object_id': I.id}, function (res) {
-					if (parseInt(searchCat.search(" - episode")) >= 0) {
-						playAudio(I.stream_id);
-					} else if (searchCat == 'star') {
-						$.cookie("audio_star", '1');
-						var cast_url = HTTP_ROOT + '/star/' + I.title;
-						$.pjax({url: cast_url, container: '#main'});
-						//window.location = HTTP_ROOT + '/star/' + I.title;
-					} else {
-						$.cookie("audio_content", '1');
-						var content_url =  HTTP_ROOT + '/' + I.title;
-						$.pjax({url: content_url, container: '#main'});
-						//window.location = HTTP_ROOT + '/' + I.title;
-					}
+                    self._renderItemData(ul, item);
+                });
+    }
+});
+var category = "";
+$("#siteSearchField").catcomplete({
+    source: HTTP_ROOT + "/search/search/",
+    minLength: 1,
+    select: function (event, ui) {
+        console.log(HTTP_ROOT);
+        var I = ui.item;
+        var searchCat = I.category;
+        searchCat = searchCat.toLowerCase();
+        var logurl = HTTP_ROOT + '/search/siteSearchLog';
+        $.post(logurl, {'object_category': I.content_types, 'search_string': I.value, 'search_url': window.location.href, 'object_id': I.id}, function (res) {
+            if (parseInt(searchCat.search(" - episode")) >= 0) {
+                playAudio(I.stream_id);
+            } else if (searchCat == 'star') {
+                $.cookie("audio_star", '1');
+                var cast_url = HTTP_ROOT + '/star/' + I.title;
+                $.pjax({url: cast_url, container: '#main'});
+                        //window.location = HTTP_ROOT + '/star/' + I.title;
+                    } else {
+                        $.cookie("audio_content", '1');
+                        var content_url =  HTTP_ROOT + '/' + I.title;
+                        $.pjax({url: content_url, container: '#main'});
+                        //window.location = HTTP_ROOT + '/' + I.title;
+                    }
 
-				});
-			}
-		});
+                });
+    }
+});
 
 });
 
@@ -227,8 +241,8 @@ $(function(){
 $(window).bind("load", function() { 
     positionFooter();
     setInterval(function(){ 
-       positionFooter();
-    }, 3000);
+     positionFooter();
+ }, 3000);
 });
 $(window).bind("scroll", function() { 
     positionFooter();
@@ -270,25 +284,25 @@ function initSlickSlider(currentObj){ //currently using for featured section
         autoplaySpeed: 3000,
 
         responsive: [
-            {
-                breakpoint: 1024,
-                settings: {
-                    slidesToShow: 4,
-                    infinite: false,
-                }
-            },
-            {
-                breakpoint: 600,
-                settings: {
-                    slidesToShow: 3,
-                }
-            },
-            {
-                breakpoint: 480,
-                settings: {
-                    slidesToShow: 1
-                }
+        {
+            breakpoint: 1024,
+            settings: {
+                slidesToShow: 4,
+                infinite: false,
             }
+        },
+        {
+            breakpoint: 600,
+            settings: {
+                slidesToShow: 3,
+            }
+        },
+        {
+            breakpoint: 480,
+            settings: {
+                slidesToShow: 1
+            }
+        }
         ]
     });
 }
@@ -307,7 +321,7 @@ function episodeContent() {
             $('.loader_episode').hide();
             $(".tracklist").html(res.msg);
             var total_track = '';
-			var trackLang;
+            var trackLang;
             if (res.status != 'failure') {
                 total_track = $('.episode_total').val();
             }
@@ -322,11 +336,11 @@ function episodeContent() {
             if (date) {
                 var release_symbol = '<span class="symbol">&nbsp;-</span>&nbsp;&nbsp;';
             }
-			if(total_track == 1){
-				trackLang = track;
-			}else{
-				trackLang = tracks;
-			}
+            if(total_track == 1){
+                trackLang = track;
+            }else{
+                trackLang = tracks;
+            }
             if (total_track != '') {
                 $('.symbol-release').addClass('hide');
                 $('.tracks').html(cast_symbol + total_track + '&nbsp;' + trackLang + release_symbol);
@@ -362,18 +376,18 @@ function bannerLoad(autoScroll,interval,thumb_visibe){
     configSliderOne(thumb_visibe);
 }
 function submit_search(){
-   var search_val = $("input[name='search_field']").val();
-    if (search_val == "") {
-        return false;
-    }
-    var event = HTTP_ROOT + "/search/show_all";
-    var form = $('#form');
-    $.pjax({
-        container: "#main", 
-        timeout: 2000,
-        url: event,
-        data: form.serialize()
-    });
+ var search_val = $("input[name='search_field']").val();
+ if (search_val == "") {
+    return false;
+}
+var event = HTTP_ROOT + "/search/show_all";
+var form = $('#form');
+$.pjax({
+    container: "#main", 
+    timeout: 2000,
+    url: event,
+    data: form.serialize()
+});
 }
 function addFav(obj){
     var login_status  = $(obj).attr('data-login_status'); 
@@ -381,29 +395,29 @@ function addFav(obj){
     var content_type  = $(obj).attr('data-content_type'); 
     var fav_status    = $(obj).attr('data-fav_status'); 
     if(login_status == 1){
-         $('#loader_fav').show();
-        if($(obj).find('.fa').hasClass('fa-heart-o')){
-            $(obj).find('.fa').removeClass('fa-heart-o');
-            $(obj).find('.fa').addClass('fa-heart');
-            $(obj).attr('data-fav_status',0);
-            $('.favourite__content').html(added_fav);
-        }else{
-            $(obj).find('.fa').removeClass('fa-heart');
-            $(obj).find('.fa').addClass('fa-heart-o');
-            $(obj).attr('data-fav_status',1);
-            $('.favourite__content').html(add_fav);
-        } 
-        addFavContent(content_id,content_type,true, fav_status);
+       $('#loader_fav').show();
+       if($(obj).find('.fa').hasClass('fa-heart-o')){
+        $(obj).find('.fa').removeClass('fa-heart-o');
+        $(obj).find('.fa').addClass('fa-heart');
+        $(obj).attr('data-fav_status',0);
+        $('.favourite__content').html(added_fav);
     }else{
-        $("#loginModal").modal('show');
-        var input_field = '<div id="fav_input"><input type="hidden" name="add_to_fav" id="add_to_fav" value="1" /><input type="hidden" name="content_type"  id="content_type" value="'+content_type+'" /></div>';
-        $("#loginModal .popup_bottom").append(input_field);
-        if(content_type == 1){
-            $("#stream_id").val(content_id);
-        }else{
-            $("#movie_id").val(content_id);
-        }
+        $(obj).find('.fa').removeClass('fa-heart');
+        $(obj).find('.fa').addClass('fa-heart-o');
+        $(obj).attr('data-fav_status',1);
+        $('.favourite__content').html(add_fav);
+    } 
+    addFavContent(content_id,content_type,true, fav_status);
+}else{
+    $("#loginModal").modal('show');
+    var input_field = '<div id="fav_input"><input type="hidden" name="add_to_fav" id="add_to_fav" value="1" /><input type="hidden" name="content_type"  id="content_type" value="'+content_type+'" /></div>';
+    $("#loginModal .popup_bottom").append(input_field);
+    if(content_type == 1){
+        $("#stream_id").val(content_id);
+    }else{
+        $("#movie_id").val(content_id);
     }
+}
 }
 function addFavContent(content_id,content_type,login_status,action){
     var url = HTTP_ROOT+"/user/addtofavlist/";
@@ -413,7 +427,7 @@ function addFavContent(content_id,content_type,login_status,action){
         type: 'POST',
         headers: {"X-PJAX":"true","X-PJAX-Container":"#main"},
         success: function (res) {
-                $('#loader_fav').hide();
+            $('#loader_fav').hide();
         }
     });
 }
@@ -425,11 +439,11 @@ function deleteFavContent(obj) {
     $('#deleteFav').modal('hide');
     var action = 0;
     if ($.trim(content_type) == "") {
-         content_type = 0;
-    }
-    $.post(url, {'content_id': content_id, 'content_type': content_type, 'login_status': true, 'action': action}, function (res) {
-        location.reload();
-    });
+       content_type = 0;
+   }
+   $.post(url, {'content_id': content_id, 'content_type': content_type, 'login_status': true, 'action': action}, function (res) {
+    location.reload();
+});
 }
 function showText()
 {
@@ -446,5 +460,5 @@ function removefromcart(id, cartid, qnty) {
     });
 }
 function goKart(){
-   window.location.href=HTTP_ROOT+"/shop/cart";
+ window.location.href=HTTP_ROOT+"/shop/cart";
 }
