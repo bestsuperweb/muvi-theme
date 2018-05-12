@@ -39,24 +39,24 @@
     <div ng-app="FeaturedContents" ng-controller="HomeFeaturedSections" id="homepage_sections" class="relative" ng-cloak>
       <div ng-repeat="(index, section) in sections" ng-if="section.total > 0" class="parent_sec_{{section.id}} parent-sec-hide" id="section_{{section.id}}">
         <div ng-if="index%4 == 2"> <br><br>               
-          <img src="https://d1op7c8sil1f1a.cloudfront.net/imagegallery/original/TRHS_1525209289.png" style="width: 100%;" >
+          <img src="https://d1op7c8sil1f1a.cloudfront.net/imagegallery/original/newcallbar1_1525910909.png" style="width: 100%;" >
           <br><br>
         </div>
         <div ng-if="index != 0 && index%4 == 0" class="row" > <br><br>
           <div class="col-md-3 col-sm-6 slide">                
-           <img src="https://d1op7c8sil1f1a.cloudfront.net/imagegallery/original/HOLLYWOOD_1525306217.png" class="img-responsive img-rounded" >
+           <img src="https://d1op7c8sil1f1a.cloudfront.net/imagegallery/original/suc3_1525908082.png" class="img-responsive img-rounded" >
            <h3 class="text-center category-title"></h3>
          </div>
          <div class="col-md-3 col-sm-6 slide">
-          <img src="https://d1op7c8sil1f1a.cloudfront.net/imagegallery/original/dizi_1525146216.png" class="img-responsive img-rounded" >
-          <h3 class="text-center category-title">Dizi</h3>
+          <img src="https://d1op7c8sil1f1a.cloudfront.net/imagegallery/original/fantastik3_1525908102.png" class="img-responsive img-rounded" >
+          <h3 class="text-center category-title"></h3>
         </div>
         <div class="col-md-3 col-sm-6 slide">
-          <img src="https://d1op7c8sil1f1a.cloudfront.net/imagegallery/original/begless_1525146188.png" class="img-responsive img-rounded" >
-          <h3 class="text-center category-title">Belgesel</h3>
+          <img src="https://d1op7c8sil1f1a.cloudfront.net/imagegallery/original/korku3_1525908052.png" class="img-responsive img-rounded" >
+          <h3 class="text-center category-title"></h3>
         </div>
         <div class="col-md-3 col-sm-6 slide">
-          <img src="https://d1op7c8sil1f1a.cloudfront.net/imagegallery/original/bollywood_1525304513.png" class="img-responsive img-rounded" >
+          <img src="https://d1op7c8sil1f1a.cloudfront.net/imagegallery/original/bollywood4_1525908304.png" class="img-responsive img-rounded" >
           <h3 class="text-center category-title"></h3> <br><br>
         </div>
       </div> 
@@ -227,18 +227,7 @@
         easing: 'ease-in-out-cubic',
         delay: 200,
       });
-    });
-
-    $(window).scroll(function(event) {
-      event.preventDefault();
-      /* Act on the event */
-      var top = $(this).scrollTop();
-      if( top > 50){
-        $('header.navbar-fixed-top').fadeOut(300);
-      }else{
-        $('header.navbar-fixed-top').fadeIn(300);
-      }
-    });
+    });    
 
     $('table.gallery td[rowspan="3"]').height($('td').width()*0.75);
     $('table.gallery td[rowspan="6"]').height($('td').width()*1.5);
