@@ -32,7 +32,7 @@ jQuery(document).ready(function($) {
         }else{
             $('footer').removeClass('playerOn');
         }
-    });*/
+    });*/    
 
     $(window).scroll(function(event) {
       event.preventDefault();
@@ -40,10 +40,10 @@ jQuery(document).ready(function($) {
       var top = $(this).scrollTop();
       if( top > 50){
         $('header.navbar-fixed-top').fadeOut(300);
-    }else{
-        $('header.navbar-fixed-top').fadeIn(300);
-    }
-});
+        }else{
+            $('header.navbar-fixed-top').fadeIn(300);
+        }
+    });
 
     $('body').on('click', function(e) {
         if ($.trim($(e.target).attr('class')) == "language-list" || $.trim($(e.target).attr('class')) == "fa fa-language") {
@@ -228,6 +228,11 @@ $("#siteSearchField").catcomplete({
                 });
     }
 });
+
+var price   = $('div.ppv_price h1').eq(0).html();
+console.log(price);
+var btn     = $('a.playbtn').eq(0).html();
+$('a.playbtn').eq(0).html(btn + ' ' + price );
 
 });
 
@@ -462,3 +467,5 @@ function removefromcart(id, cartid, qnty) {
 function goKart(){
  window.location.href=HTTP_ROOT+"/shop/cart";
 }
+
+
