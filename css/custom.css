@@ -414,7 +414,7 @@ code{background-color:#32c5d2;color:#ffffff}
 
     /*Rating*/
     .rating{
-        margin-bottom: 35px;
+        margin-bottom: 20px;
     }
     .rating i{
         font-size: 16px;
@@ -910,7 +910,7 @@ div.mobile-gallery img.img-responsive{
 }
 
 .product-casts{
-    margin-top: 50px;
+    margin-top: 20px;
 }
 
 .product-casts>span{
@@ -920,16 +920,22 @@ div.mobile-gallery img.img-responsive{
 }
 
 .product-price-btns{
-    padding: 30px 20px;
+    padding: 40px 30px;
     background: #180226;
 }
 
-.product-price-btns a.btn{
-    background-color: #01a5a0 !important;
-    color: white !important;
+.product-price-btns a{
+    background-color: transparent !important;
+    color: #01a5a0 !important;
     display: block;
     width: 100%;
     margin: 15px 0;
+    border-radius: 3px;
+    border-color: #01a5a0 !important;
+}
+
+.product-price-btns a:hover{
+    background-color: transparent !important;   
 }
 
 .product-price-btns .ppv_price h1{
@@ -942,7 +948,7 @@ div.mobile-gallery img.img-responsive{
 }
 
 .c-product-meta .meta__info{
-    margin-bottom: 50px;
+    margin-bottom: 20px;
 }
 
 .c-product-meta .meta__info span{
@@ -954,7 +960,7 @@ div.mobile-gallery img.img-responsive{
 
 .c-product-meta p{
     color: #fff;
-    font-size: 15px;
+    font-size: 16px;
 }
 
 .c-product-meta .rating>span{
