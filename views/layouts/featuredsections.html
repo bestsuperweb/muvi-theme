@@ -38,8 +38,16 @@
   <div class="wrapper">
     <div ng-app="FeaturedContents" ng-controller="HomeFeaturedSections" id="homepage_sections" class="relative" ng-cloak>
       <div ng-repeat="(index, section) in sections" ng-if="section.total > 0" class="parent_sec_{{section.id}} parent-sec-hide" id="section_{{section.id}}">
-        <div ng-if="index%4 == 2"> <br><br>               
-          <img src="https://d1op7c8sil1f1a.cloudfront.net/imagegallery/original/newcallbar1_1525910909.png" style="width: 100%;" >
+        <div ng-if="index == 2"> <br><br>               
+          <img src="https://d1op7c8sil1f1a.cloudfront.net/imagegallery/original/Place-1-Hollywood-x_1526342454.png" style="width: 100%;" >
+          <br><br>
+        </div>
+        <div ng-if="index == 6"> <br><br>               
+          <img src="https://d1op7c8sil1f1a.cloudfront.net/imagegallery/original/Place-2-bollywood-x_1526344040.png" style="width: 100%;" >
+          <br><br>
+        </div>
+        <div ng-if="index == 10"> <br><br>               
+          <img src="https://d1op7c8sil1f1a.cloudfront.net/imagegallery/original/Place-3-yesilcam-x_1526344053.png" style="width: 100%;" >
           <br><br>
         </div>
         <div ng-if="index != 0 && index%4 == 0" class="row" > <br><br>
