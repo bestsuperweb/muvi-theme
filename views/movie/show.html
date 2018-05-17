@@ -389,5 +389,110 @@
     </div>
 </div>
 </div>
+<div class="container-fluid" ng-app="Player" ng-cloak>
+{literal}
+    <div class="related-video mt50" ng-controller="related">
+        <div ng-if="hasData">
+            <div class="row">  
+                <div class="col-sm-8 col-lg-8">
+                    <h2 class="caps">{/literal}{$this->Language['related_videos']}{literal}</h2>
+                </div>
+            </div>
+            <div class="row">
+                <section class="lazy slick relatediniit" >
+                    <div class="col-md-3 col-sm-6 c-margin-b-20 slick-slide" ng-repeat="content in contentlist">
+                        <div class="c-content-product-2 c-bg-white list-box">
+                            <div class="c-content-overlay">
+                                <div class="c-overlay-wrapper">
+                                    <div class="c-overlay-content" ng-bind-html="content.play_btn | html"></div>
+                                </div>
+                                <div class="c-bg-img-top-center c-overlay-object text-center">
+                                    <img src="{{content.poster}}"> 
+                                </div>
+                            </div>
+                            <div class="c-info">
+                                <p class="c-title c-font-18 c-font-slim">
+                                    <a href="{{content.permalink}}" ng-bind="content.title"></a>
+                                </p>
+                                <span class="caption_genre c-font-16" ng-repeat="genres in content.genres" ng-bind-template="{{$index == 0 ? '':', '}}{{genres}}"></span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <div class="loader static-loading" id="related_load" ng-if="isLoading"></div>
+            <span style="display:none;">{{initSlid("relatediniit")}}</span>
+        </div>
+    </div>
+{/literal}
+</div>
 
+<script type="text/javascript">
+    var content_id = {$content->movie_id}; 
+    var movie_stream_id = {$content->movie_stream_id};
+</script>
 
+{literal}
+<script>
+   var app = angular.module('Player', [])
+        .filter('html',function($sce){
+        return function(input){
+            return $sce.trustAsHtml(input);
+        };
+    });
+
+    app.controller('related', function($scope,$http) {
+        $scope.contentlist = ""; 
+        $scope.hasData = false; 
+        $scope.isLoading = true; 
+        $scope.initSlid = function(section){
+            if($scope.hasData){
+                initSliderJs(section);
+                $scope.isLoading = false; 
+            }
+    };
+        $http.get(HTTP_ROOT+"/rest/relatedContent?authToken="+STORE_AUTH_TOKEN+"&content_id="+content_id+"&content_stream_id="+movie_stream_id).then(function (response) {
+        if(response.data.contentData.length > 0){
+            $scope.contentlist = response.data.contentData;
+                $scope.hasData = true;
+            }
+        });
+    });
+
+    function initSliderJs(section){
+        setTimeout(function(){
+            $('.lazy').not('.slick-initialized').slick({
+                dots: false,
+                infinite: false,
+                speed: 300,
+                slidesToShow: 4,
+                customPadding: '80px',
+                autoplay: false,
+                autoplaySpeed: 3000,
+                responsive: [
+                    {
+                        breakpoint: 1024,
+                        settings: {
+                            slidesToShow: 4,
+                            infinite: false,
+                        }
+                    },
+                    {
+                        breakpoint: 600,
+                        settings: {
+                            slidesToShow: 3,
+                        }
+                    },
+                    {
+                        breakpoint: 480,
+                        settings: {
+                            slidesToShow: 1
+                        }
+                    }
+                ]
+            });
+            $(".lazy."+section).removeClass(section);
+        }, 2000);
+    }
+</script>
+{/literal}
